@@ -417,9 +417,9 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## 🗺️ Roadmap
 
+- [x] **Email/Discord notifications** - ✅ Implemented (alert.service.ts with webhook support)
 - [ ] Telegram bot interface
 - [ ] Historical data tracking & analytics
-- [ ] Email/Discord notifications
 - [ ] Multi-wallet support
 - [ ] Advanced filtering rules
 - [ ] Scheduled reports (daily/weekly)
