@@ -408,7 +408,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## 📞 Contact & Support
 
-- **Author**: [Victor Adoghe]
+- **Author**: Victor Adoghe
 - **GitHub**: [victoradoghe](https://github.com/victoradoghe)
 - **Twitter**: [@D3vnox](https://twitter.com/D3vnox)
 - **Email**: victoradoghe112@gmail.com
