@@ -691,7 +691,7 @@ Kora-Recapture is fully open-source under the MIT License. We encourage:
 - API: Express.js
 - State: React Query, local JSON files
 
-**Repository:** [github.com/your-username/kora-recapture](https://github.com/your-username/kora-recapture)
+**Repository:** [github.com/victoradoghe/kora-recapture](https://github.com/victoradoghe/kora-recapture)
 
 
 

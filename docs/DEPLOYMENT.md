@@ -71,7 +71,7 @@ pnpm --version  # Should be 8.x+
 
 ```bash
 # Clone repository
-git clone https://github.com/your-username/kora-recapture.git
+git clone https://github.com/victoradoghe/kora-recapture.git
 cd kora-recapture
 
 # Install bot dependencies

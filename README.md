@@ -106,7 +106,7 @@ kora-recapture/
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/kora-recapture.git
+git clone https://github.com/victoradoghe/kora-recapture.git
 cd kora-recapture
 
 # Install bot dependencies
