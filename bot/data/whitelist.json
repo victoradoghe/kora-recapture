@@ -1,0 +1,9 @@
+{
+    "accounts": [
+        "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "11111111111111111111111111111111",
+        "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+    ],
+    "owners": [],
+    "description": "Protected accounts that should never be closed. Add your treasury and critical ATAs here."
+}
