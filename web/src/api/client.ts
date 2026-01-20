@@ -1,6 +1,17 @@
 import axios from 'axios';
 import type { SystemMetrics, LogEntry, WhitelistConfig, EmergencyStopState, BotConfig } from '../types';
 
+export interface SponsoredAccountWithStatus {
+    pubkey: string;
+    balance: number;
+    lastActivity: number;
+    status: 'active' | 'inactive';
+    sponsored: boolean;
+    owner?: string;
+    mint?: string;
+    eligible: boolean;
+}
+
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
 const api = axios.create({
@@ -24,6 +35,12 @@ export const apiClient = {
     // Get logs
     getLogs: async (limit: number = 100): Promise<LogEntry[]> => {
         const response = await api.get<LogEntry[]>('/logs', { params: { limit } });
+        return response.data;
+    },
+
+    // Get accounts
+    getAccounts: async (): Promise<SponsoredAccountWithStatus[]> => {
+        const response = await api.get<SponsoredAccountWithStatus[]>('/accounts');
         return response.data;
     },
 

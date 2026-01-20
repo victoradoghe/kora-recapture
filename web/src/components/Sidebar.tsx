@@ -72,7 +72,11 @@ export function Sidebar({ activePage = "dashboard", isMobileOpen = false, onClos
 
                 {/* User Section */}
                 <div className="p-4 border-t border-border/50">
-                    <div className="flex items-center gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary cursor-pointer transition-colors">
+                    <a
+                        href="#profile"
+                        onClick={onClose}
+                        className="flex items-center gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary cursor-pointer transition-colors"
+                    >
                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center">
                             <User className="w-4 h-4 text-white" />
                         </div>
@@ -80,7 +84,7 @@ export function Sidebar({ activePage = "dashboard", isMobileOpen = false, onClos
                             <p className="text-sm font-medium truncate">Operator</p>
                             <p className="text-xs text-muted-foreground">View Profile</p>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </aside>
         </>

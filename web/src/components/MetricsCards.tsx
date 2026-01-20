@@ -2,7 +2,7 @@ import { Card, CardContent } from "./ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "../api/client";
 import { Loader2, TrendingUp, TrendingDown, ExternalLink, Vault, Zap, Users } from "lucide-react";
-import { LineChart, Line, ResponsiveContainer } from "recharts";
+import { LineChart, Line, BarChart, Bar, ResponsiveContainer } from "recharts";
 
 export function MetricsCards() {
     const { data: metrics, isLoading, error } = useQuery({
@@ -56,7 +56,6 @@ export function MetricsCards() {
     // Calculate percentage changes (simulated for now, you can track historical data)
     const rentChange = totalRentLocked > 0 ? "+2.3%" : "0.00%";
     const reclaimableChange = reclaimableSol > 0 ? "+5.4%" : "0.00%";
-    const accountsChange = accountsMonitored > 0 ? "-1.2%" : "0.00%";
 
     const metricsData = [
         {
@@ -67,6 +66,7 @@ export function MetricsCards() {
             IconComponent: Vault,
             chartData: generateChartData(totalRentLocked, "up"),
             color: "#10b981",
+            chartType: "line" as const,
         },
         {
             title: "Reclaimable SOL",
@@ -76,15 +76,17 @@ export function MetricsCards() {
             IconComponent: Zap,
             chartData: generateChartData(reclaimableSol, reclaimableSol > 0 ? "up" : "flat"),
             color: "#8b5cf6",
+            chartType: "line" as const,
         },
         {
             title: "Accounts Monitored",
             value: String(accountsMonitored),
-            change: accountsChange,
-            trend: "down" as const,
+            change: "",
+            trend: "flat" as const,
             IconComponent: Users,
-            chartData: generateChartData(accountsMonitored, "down"),
-            color: "#ef4444",
+            chartData: generateChartData(accountsMonitored, "flat"),
+            color: "#3b82f6",
+            chartType: "bar" as const,
         },
     ];
 
@@ -111,37 +113,57 @@ export function MetricsCards() {
                         {/* Value */}
                         <div className="flex items-baseline gap-2 mb-1">
                             <span className="text-3xl font-bold">{metric.value}</span>
-                            <span className="text-sm text-muted-foreground">SOL</span>
+                            {metric.title !== "Accounts Monitored" && (
+                                <span className="text-sm text-muted-foreground">SOL</span>
+                            )}
                         </div>
 
                         {/* Change */}
-                        <div className="flex items-center gap-1.5 mb-6">
-                            {metric.trend === "up" ? (
-                                <TrendingUp className="w-3 h-3 text-green-400" />
-                            ) : metric.trend === "down" ? (
-                                <TrendingDown className="w-3 h-3 text-red-400" />
-                            ) : null}
-                            <span className={`text-xs font-medium ${metric.trend === "up" ? "text-green-400" :
-                                metric.trend === "down" ? "text-red-400" :
-                                    "text-muted-foreground"
-                                }`}>
-                                {metric.change}
-                            </span>
-                        </div>
+                        {metric.title !== "Accounts Monitored" && (
+                            <div className="flex items-center gap-1.5 mb-6">
+                                {metric.trend === "up" ? (
+                                    <TrendingUp className="w-3 h-3 text-green-400" />
+                                ) : metric.trend === "down" ? (
+                                    <TrendingDown className="w-3 h-3 text-red-400" />
+                                ) : null}
+                                <span className={`text-xs font-medium ${metric.trend === "up" ? "text-green-400" :
+                                    metric.trend === "down" ? "text-red-400" :
+                                        "text-muted-foreground"
+                                    }`}>
+                                    {metric.change}
+                                </span>
+                            </div>
+                        )}
+                        {metric.title === "Accounts Monitored" && (
+                            <div className="mb-6">
+                                <span className="text-xs text-muted-foreground">Total sponsored accounts</span>
+                            </div>
+                        )}
 
                         {/* Chart */}
                         <div className="h-16 -mx-2">
                             <ResponsiveContainer width="100%" height="100%">
-                                <LineChart data={metric.chartData}>
-                                    <Line
-                                        type="monotone"
-                                        dataKey="value"
-                                        stroke={metric.color}
-                                        strokeWidth={2}
-                                        dot={false}
-                                        animationDuration={2000}
-                                    />
-                                </LineChart>
+                                {metric.chartType === "bar" ? (
+                                    <BarChart data={metric.chartData}>
+                                        <Bar
+                                            dataKey="value"
+                                            fill={metric.color}
+                                            radius={[4, 4, 0, 0]}
+                                            animationDuration={2000}
+                                        />
+                                    </BarChart>
+                                ) : (
+                                    <LineChart data={metric.chartData}>
+                                        <Line
+                                            type="monotone"
+                                            dataKey="value"
+                                            stroke={metric.color}
+                                            strokeWidth={2}
+                                            dot={false}
+                                            animationDuration={2000}
+                                        />
+                                    </LineChart>
+                                )}
                             </ResponsiveContainer>
                         </div>
 

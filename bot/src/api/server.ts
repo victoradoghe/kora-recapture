@@ -114,6 +114,44 @@ app.post('/api/reclaim', async (req: Request, res: Response) => {
     }
 });
 
+// Get accounts
+app.get('/api/accounts', async (req: Request, res: Response) => {
+    try {
+        const keypair = getOperatorKeypair();
+        const monitor = new MonitorService(keypair.publicKey);
+        const audit = new AuditService();
+
+        // Scan for accounts
+        const accounts = await monitor.scanWalletHistory();
+
+        // Audit accounts to get eligibility status
+        const auditResults = await audit.auditBatch(
+            accounts.map(a => ({ pubkey: a.pubkey, owner: a.owner }))
+        );
+
+        // Combine account data with audit results
+        const accountsWithStatus = accounts.map((account, index) => {
+            const auditResult = auditResults[index];
+            return {
+                pubkey: account.pubkey,
+                balance: account.rentLamports / 1_000_000_000, // Convert lamports to SOL
+                lastActivity: account.createdAt,
+                status: auditResult?.eligible ? 'inactive' : 'active',
+                sponsored: true,
+                owner: account.owner,
+                mint: account.mint,
+                eligible: auditResult?.eligible || false,
+            };
+        });
+
+        res.json(accountsWithStatus);
+    } catch (error) {
+        res.status(500).json({
+            error: error instanceof Error ? error.message : 'Failed to fetch accounts',
+        });
+    }
+});
+
 // Get whitelist
 app.get('/api/whitelist', async (req: Request, res: Response) => {
     try {
